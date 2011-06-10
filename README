@@ -1,0 +1,9 @@
+VMWare-Component-Extractor
+---------------------------
+
+This is just a personal itch scratcher after fighting with VMWare a little bit on Windows 7 and it giving me a really odd error - It is in no way endorsed/affiliated with VMWare.
+
+
+This program, given a VMWare component file, will extract the ISO you need to mount to provide you with the host utils.
+
+Just make, no install needed.
