@@ -15,6 +15,8 @@
 
 const std::string TAR_EXTRACT_COMMAND    = "tar -xf ";
 const std::string GUNZIP_COMMAND         = "gunzip ";
+const std::string GZIP_EXT		 = ".gz";
+
 
 /**
  * Checks existence of a file
@@ -39,7 +41,7 @@ std::string StripExtension(const std::string &fileName) {
 bool ExtractObjectFromStream(std::ifstream &input, std::string outputFileName, 
     const long &offset, const long &length) {
     bool success = false;
-    outputFileName += ".gz";
+    outputFileName += GZIP_EXT;
     std::ofstream outputFile(outputFileName.c_str(), std::ios::binary);
     
     if (outputFile) {
@@ -75,8 +77,8 @@ std::string GetValueFromTag(std::string source, std::string tag) {
 }
 
 /**
-  * Extract single object between offset->length and stores
-  * as outputFile
+  * Reads through XML header for offset/sizes/files and extracts them
+  * \\\ /TODO: Expand this to read all files from archive
   */
 bool ExtractObjectsFromComponent(const std::string &componentFileName) {
     bool success = false;
@@ -137,16 +139,15 @@ int main(int argumentCount, char **arguments) {
             std::cout << "Failed to extract all files from component file" << std::endl;
             goto error;
         }
+    } else {
+        std::cout << "Usage:" << std::endl <<  std::string(arguments[0])
+	    << " <componentfilename.component.tar>" << std::endl;
     }
 
-    // Operation completed
+    // Operation completed fall out happy. Normally dislike multiple return points but
+    // this works well enough for what we need.
     return 0;
     
-usage:
-    std::cout << "Usage:" << std::endl \
-        << std::string(arguments[0]) \
-        << " <componentfilename.component.tar>" \
-        << std::endl;
 error:
     return -1;    
 }
